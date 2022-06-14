@@ -9,7 +9,7 @@ class PrivateShoppingCartRepository {
     return data
   }
 
-  getCartDetails (cartId) {
+  getCartDetails (memberId) {
     const sql = `
     SELECT
       sc.id AS 'cartId',
@@ -23,14 +23,18 @@ class PrivateShoppingCartRepository {
       INNER JOIN Cart_items ci ON sc.id = ci.cart_id
       INNER JOIN Products p ON ci.product_id = p.id
     WHERE
-      sc.id = $cartId;
+      sc.member_id = $memberId;
     `
 
     return sequelize.query(sql, {
       type: sequelize.QueryTypes.SELECT,
       nest: true,
-      bind: { cartId }
+      bind: { memberId }
     })
+  }
+
+  clearCart (cartId) {
+    return Shopping_cart.destroy({ where: { id: cartId } })
   }
 }
 

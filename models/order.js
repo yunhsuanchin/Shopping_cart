@@ -16,18 +16,18 @@ module.exports = (sequelize, DataTypes) => {
       member_id: {
         type: DataTypes.INTEGER,
         allowNull: false
-        // references: { model: Member, key: 'id' }
       },
       total: { type: DataTypes.INTEGER, allowNull: false },
       status: {
-        type: DataTypes.ENUM('paid', 'canceled', 'refunded'),
+        type: DataTypes.ENUM('new', 'paid', 'canceled', 'refunded'),
+        defaultValue: 'new',
         allowNull: false
       },
       checksum: { type: DataTypes.STRING, allowNull: false },
       transaction_id: {
         type: DataTypes.INTEGER,
+        defaultValue: -1,
         allowNull: false
-        // references: { model: Transaction, key: 'id' }
       }
     },
     {

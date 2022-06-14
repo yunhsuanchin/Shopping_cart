@@ -5,6 +5,10 @@ class PrivateCartItemRepository {
     await Cart_item.destroy({ where: { cart_id: cartItems[0].cart_id } })
     return Cart_item.bulkCreate(cartItems)
   }
+
+  clearCartItems (cartId) {
+    return Cart_item.destroy({ where: { cart_id: cartId } })
+  }
 }
 
 class CartItemRepository {

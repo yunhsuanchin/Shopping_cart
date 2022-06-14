@@ -26,7 +26,12 @@ module.exports = {
 
   cartCheckout: async (req, res, next) => {
     try {
+      const { memberId, cardNo } = req.body
+      const result = await cartService.cartCheckout(memberId, cardNo)
+
+      return res.status(200).json(result)
     } catch (error) {
+      console.log(error)
       next(error)
     }
   }
