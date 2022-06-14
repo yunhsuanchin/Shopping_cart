@@ -36,6 +36,7 @@ class PrivateCartService {
   async cartCheckout (memberId, cardNo) {
     // get cart items
     const cartItems = await this.getCartItems(memberId)
+    if (!Object.keys(cartItems).length) throw new Error('沒東西')
 
     const { orderId, transactionId } = await sequelize.transaction(async t => {
       const orderData = helper.snakeCaseTransformer(
@@ -75,13 +76,18 @@ class PrivateCartService {
     })
 
     // update order status & transaction id
-    await orderRepository.updateOrderStatusAsPaid(orderId, transactionId)
-
     // clear cart & cart item
     await Promise.all([
+      orderRepository.updateOrderStatusAsPaid(orderId, transactionId),
       shoppingCartRepository.clearCart(cartItems.cartId),
       cartItemRepository.clearCartItems(cartItems.cartId)
     ])
+    // update product balance
+    return this.getOrderDetails(orderId)
+  }
+
+  async getOrderDetails (orderId) {
+    return orderRepository.getOrderDetails(orderId)
   }
 }
 

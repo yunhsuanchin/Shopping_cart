@@ -13,6 +13,7 @@ const express = require('express')
 const db = require('./models')
 const routers = require('./routes')
 const cors = require('cors')
+const errorHandler = require('./middleware/errorHandler')
 const app = express()
 const PORT = 3000
 
@@ -23,6 +24,7 @@ app.get('/alive', (req, res, next) => {
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(routers)
+app.use(errorHandler)
 
 app.listen(PORT, () => {
   db.sequelize.sync()

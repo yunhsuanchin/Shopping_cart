@@ -5,7 +5,6 @@ module.exports = {
     try {
       const { cartId } = req.params
       const result = await cartService.getCartItems(cartId)
-      res.locals.data = result
 
       return res.status(200).json(result)
     } catch (error) {
@@ -31,7 +30,6 @@ module.exports = {
 
       return res.status(200).json(result)
     } catch (error) {
-      console.log(error)
       next(error)
     }
   }
