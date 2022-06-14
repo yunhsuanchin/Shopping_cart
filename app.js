@@ -1,3 +1,14 @@
+if (process.env.NODE_ENV === 'production') {
+  require('dotenv').config({ path: './config/env/.env.prod' })
+} else if (process.env.NODE_ENV === 'development') {
+  require('dotenv').config({ path: './config/env/.env.dev' })
+} else {
+  // development and release
+  require('dotenv').config({
+    path: path.resolve(__dirname, './config/env/.env.dev')
+  })
+}
+
 const express = require('express')
 const db = require('./models')
 const app = express()
@@ -8,6 +19,6 @@ app.get('/alive', (req, res, next) => {
 })
 
 app.listen(PORT, () => {
-  db.sequelize.sync()
+  db.sequelize.sync({ force: true })
   console.log(`App is running on http://localhost:${PORT}`)
 })

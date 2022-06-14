@@ -1,17 +1,10 @@
 module.exports = {
   mysql: {
-    dialect: 'mysql',
-    timezone: '+08:00',
+    host: process.env.MYSQL_HOST,
+    username: process.env.MYSQL_USERNAME,
+    password: process.env.MYSQL_PASSWORD,
     database: 'shopline',
-    write: {
-      username: 'shopline',
-      password: '88888888',
-      host: '127.0.0.1'
-    },
-    read: {
-      username: 'shopline',
-      password: '88888888',
-      host: '127.0.0.1'
-    }
+    dialect: 'mysql',
+    timezone: '+08:00'
   }
 }

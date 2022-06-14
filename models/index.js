@@ -4,38 +4,22 @@ const fs = require('fs')
 const path = require('path')
 const Sequelize = require('sequelize')
 const basename = path.basename(__filename)
-const config = require(path.join(__dirname, '../config/config.js')).mysql
-console.log(
-  config,
-  config.database,
-  config.timezone,
-  config.read.host,
-  config.write.host
-)
+const config = require(__dirname + '../config/config.js')['mysql']
 const db = {}
 
 let sequelize = new Sequelize(config.database, null, null, {
-  port: 3306,
-  host: config.read.host,
   dialect: config.dialect,
   timezone: config.timezone,
-  logging: false,
   replication: {
     read: {
-      host: config.read.host,
-      username: config.read.username,
-      password: config.read.password
+      host: config.host,
+      username: config.username,
+      password: config.password
     },
     write: {
-      host: config.write.host,
-      username: config.write.username,
-      password: config.write.password
-    },
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000
+      host: config.host,
+      username: config.username,
+      password: config.password
     }
   }
 })
