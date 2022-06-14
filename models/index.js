@@ -4,7 +4,7 @@ const fs = require('fs')
 const path = require('path')
 const Sequelize = require('sequelize')
 const basename = path.basename(__filename)
-const config = require(__dirname + '../config/config.js')['mysql']
+const config = require(__dirname + '/../config/config.js')['mysql']
 const db = {}
 
 let sequelize = new Sequelize(config.database, null, null, {

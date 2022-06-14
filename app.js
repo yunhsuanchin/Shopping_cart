@@ -19,6 +19,6 @@ app.get('/alive', (req, res, next) => {
 })
 
 app.listen(PORT, () => {
-  db.sequelize.sync({ force: true })
+  db.sequelize.sync()
   console.log(`App is running on http://localhost:${PORT}`)
 })
