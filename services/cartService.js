@@ -1,4 +1,5 @@
 const shoppingCartRepository = require('../repositories/shoppingCartRepository')
+const cartItemRepository = require('../repositories/cartItemRepository')
 const helper = require('../utils/helper')
 
 class PrivateCartService {
@@ -7,15 +8,18 @@ class PrivateCartService {
   getCart (cartId) {}
 
   async createCart (memberId, products) {
+    const cart = await shoppingCartRepository.createCart(
+      helper.snakeCaseTransformer({ memberId })
+    )
+
+    console.log({ cart })
     const cartData = products.map(p => {
-      p.memberId = memberId
+      p.cartId = cart.id
       return helper.snakeCaseTransformer(p)
     })
 
-    const cart = await shoppingCartRepository.createCart(cartData)
-    console.log({ cart })
-
-    // const result = await shoppingCartRepository.getCartDetails(cart.id)
+    const cartItems = await cartItemRepository.addCartItems(cartData)
+    console.log({ cartItems })
   }
 }
 
