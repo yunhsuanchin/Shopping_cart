@@ -4,11 +4,14 @@ const orderRepository = require('../repositories/orderRepository')
 const productSnapshotRepository = require('../repositories/productSnapshotRepository')
 const orderItemRepository = require('../repositories/orderItemRepository')
 const transactionRepository = require('../repositories/transactionRepository')
+const productService = require('./productService')
 const helper = require('../utils/helper')
 const { sequelize } = require('../models')
 const CartModel = require('../responseModels/cart')
 const OrderTransformer = require('../models/modelTransformer/order')
 const _ = require('lodash')
+
+const { NotFound } = require('../utils/errors')
 
 class PrivateCartService {
   constructor () {}
@@ -36,7 +39,8 @@ class PrivateCartService {
   async cartCheckout (memberId, cardNo) {
     // get cart items
     const cartItems = await this.getCartItems(memberId)
-    if (!Object.keys(cartItems).length) throw new Error('沒東西')
+    if (!Object.keys(cartItems).length)
+      throw new NotFound('There is nothing in your cart.')
 
     const { orderId, transactionId } = await sequelize.transaction(async t => {
       const orderData = helper.snakeCaseTransformer(
@@ -83,6 +87,7 @@ class PrivateCartService {
       cartItemRepository.clearCartItems(cartItems.cartId)
     ])
     // update product balance
+    await productService.updateBalance(cartItems.products)
     return this.getOrderDetails(orderId)
   }
 
