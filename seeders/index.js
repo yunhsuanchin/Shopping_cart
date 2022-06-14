@@ -3,7 +3,6 @@ const { Product, Member } = require('../models')
 const products = require('./productSeeder')
 const members = require('./memberSeeder')
 
-console.log('members', members)
 ;(async () => {
   await Promise.all([
     Product.destroy({ truncate: true }),

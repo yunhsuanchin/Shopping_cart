@@ -1,10 +1,10 @@
 const cartService = require('../services/cartService')
 
 module.exports = {
-  getCart: async (req, res, next) => {
+  getCartItems: async (req, res, next) => {
     try {
       const { cartId } = req.params
-      const result = await cartService.getCart(cartId)
+      const result = await cartService.getCartItems(cartId)
       res.locals.data = result
 
       return res.status(200).json(result)
