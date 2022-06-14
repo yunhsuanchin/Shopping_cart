@@ -16,12 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       member_id: {
         type: DataTypes.INTEGER,
         allowNull: false
-        // references: { model: Member, key: 'id' }
       },
       product_id: {
         type: DataTypes.INTEGER,
         allowNull: false
-        // references: { model: Product, key: 'id' }
       },
       quantity: { type: DataTypes.INTEGER, allowNull: false }
     },

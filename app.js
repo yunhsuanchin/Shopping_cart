@@ -12,13 +12,16 @@ if (process.env.NODE_ENV === 'production') {
 const express = require('express')
 const db = require('./models')
 const routers = require('./routes')
+const cors = require('cors')
 const app = express()
 const PORT = 3000
 
+app.use(cors())
 app.get('/alive', (req, res, next) => {
   return res.status(200).json('alive')
 })
-
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
 app.use(routers)
 
 app.listen(PORT, () => {

@@ -15,7 +15,9 @@ module.exports = {
 
   createCart: async (req, res, next) => {
     try {
-      const result = await cartService.createCart(req.body)
+      const { memberId, products } = req.body
+      const result = await cartService.createCart(memberId, products)
+
       return res.status(200).json(result)
     } catch (error) {
       next(error)

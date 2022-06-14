@@ -10,6 +10,7 @@ const db = {}
 let sequelize = new Sequelize(config.database, null, null, {
   dialect: config.dialect,
   timezone: config.timezone,
+  logging: false,
   replication: {
     read: {
       host: config.host,
