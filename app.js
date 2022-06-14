@@ -25,6 +25,6 @@ app.use(express.urlencoded({ extended: false }))
 app.use(routers)
 
 app.listen(PORT, () => {
-  db.sequelize.sync()
+  db.sequelize.sync({ force: true })
   console.log(`App is running on http://localhost:${PORT}`)
 })
