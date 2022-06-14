@@ -1,11 +1,27 @@
 const productRepository = require('../repositories/productRepository')
+const { BadRequest } = require('../utils/errors')
 
 class PrivateProductService {
   async updateBalance (products) {
-    const scope = products.map(p => {
-      return productRepository.decrement('balance', { by: p.quantity })
-    })
-    await Promise.all(scope)
+    await productRepository.updateBalance(products)
+  }
+
+  getProductDetails (productIds) {
+    return productRepository.getProductDetails(productIds.map(p => p.id))
+  }
+
+  async checkProductBalance (products) {
+    const productDetails = await this.getProductDetails(products)
+    let checkFailed = []
+    for (let p of products) {
+      const target = productDetails.find(d => d.id === p.id)
+      if (p.quantity > target.balance) {
+        checkFailed.push(p.id)
+      }
+    }
+
+    if (checkFailed.length)
+      throw new BadRequest(`${checkFailed.join()} is not enough.`)
   }
 }
 

@@ -3,8 +3,8 @@ const cartService = require('../services/cartService')
 module.exports = {
   getCartItems: async (req, res, next) => {
     try {
-      const { cartId } = req.params
-      const result = await cartService.getCartItems(cartId)
+      const { memberId } = req.params
+      const result = await cartService.getCartItems(memberId)
 
       return res.status(200).json(result)
     } catch (error) {
@@ -19,6 +19,7 @@ module.exports = {
 
       return res.status(200).json(result)
     } catch (error) {
+      console.log(error)
       next(error)
     }
   },
@@ -30,6 +31,7 @@ module.exports = {
 
       return res.status(200).json(result)
     } catch (error) {
+      console.log(error)
       next(error)
     }
   }

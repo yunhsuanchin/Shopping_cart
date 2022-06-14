@@ -8,10 +8,11 @@ const productService = require('./productService')
 const helper = require('../utils/helper')
 const { sequelize } = require('../models')
 const CartModel = require('../responseModels/cart')
+const OrderModel = require('../responseModels/order')
 const OrderTransformer = require('../models/modelTransformer/order')
 const _ = require('lodash')
 
-const { NotFound } = require('../utils/errors')
+const { NotFound, BadRequest } = require('../utils/errors')
 
 class PrivateCartService {
   constructor () {}
@@ -23,17 +24,22 @@ class PrivateCartService {
   }
 
   async createOrUpdateCart (memberId, products) {
+    // check product inventory
+    await productService.checkProductBalance(products)
+
     const cart = await shoppingCartRepository.createCart(
       helper.snakeCaseTransformer({ memberId })
     )
 
     const cartData = products.map(p => {
       p.cartId = cart.id
+      p.productId = p.id
+      delete p.id
       return helper.snakeCaseTransformer(p)
     })
 
     await cartItemRepository.updateCartItems(cartData)
-    return this.getCartItems(cart.id)
+    return this.getCartItems(memberId)
   }
 
   async cartCheckout (memberId, cardNo) {
@@ -81,18 +87,20 @@ class PrivateCartService {
 
     // update order status & transaction id
     // clear cart & cart item
+    // update product balance
     await Promise.all([
       orderRepository.updateOrderStatusAsPaid(orderId, transactionId),
       shoppingCartRepository.clearCart(cartItems.cartId),
-      cartItemRepository.clearCartItems(cartItems.cartId)
+      cartItemRepository.clearCartItems(cartItems.cartId),
+      productService.updateBalance(cartItems.products)
     ])
-    // update product balance
-    await productService.updateBalance(cartItems.products)
+
     return this.getOrderDetails(orderId)
   }
 
   async getOrderDetails (orderId) {
-    return orderRepository.getOrderDetails(orderId)
+    const data = await orderRepository.getOrderDetails(orderId)
+    return new OrderModel(data)
   }
 }
 
