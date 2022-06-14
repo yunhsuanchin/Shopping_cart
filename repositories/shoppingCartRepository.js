@@ -1,8 +1,12 @@
 const { Shopping_cart, sequelize } = require('../models')
 
 class PrivateShoppingCartRepository {
-  createCart (cartData) {
-    return Shopping_cart.create(cartData)
+  async createCart (cartData) {
+    const [data] = await Shopping_cart.findOrCreate({
+      where: { member_id: cartData.member_id }
+    })
+
+    return data
   }
 
   getCartDetails (cartId) {

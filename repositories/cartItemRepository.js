@@ -1,7 +1,8 @@
 const { Cart_item } = require('../models')
 
 class PrivateCartItemRepository {
-  addCartItems (cartItems) {
+  async updateCartItems (cartItems) {
+    await Cart_item.destroy({ where: { cart_id: cartItems[0].cart_id } })
     return Cart_item.bulkCreate(cartItems)
   }
 }

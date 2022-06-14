@@ -12,7 +12,7 @@ class PrivateCartService {
     return new CartModel(result)
   }
 
-  async createCart (memberId, products) {
+  async createOrUpdateCart (memberId, products) {
     const cart = await shoppingCartRepository.createCart(
       helper.snakeCaseTransformer({ memberId })
     )
@@ -22,7 +22,7 @@ class PrivateCartService {
       return helper.snakeCaseTransformer(p)
     })
 
-    await cartItemRepository.addCartItems(cartData)
+    await cartItemRepository.updateCartItems(cartData)
     return this.getCartItems(cart.id)
   }
 }

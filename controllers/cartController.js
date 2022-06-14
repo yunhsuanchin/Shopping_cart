@@ -16,16 +16,9 @@ module.exports = {
   createCart: async (req, res, next) => {
     try {
       const { memberId, products } = req.body
-      const result = await cartService.createCart(memberId, products)
+      const result = await cartService.createOrUpdateCart(memberId, products)
 
       return res.status(200).json(result)
-    } catch (error) {
-      next(error)
-    }
-  },
-
-  updateCart: async (req, res, next) => {
-    try {
     } catch (error) {
       next(error)
     }
