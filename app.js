@@ -1,3 +1,5 @@
+const path = require('path')
+
 if (process.env.NODE_ENV === 'production') {
   require('dotenv').config({ path: './config/env/.env.prod' })
 } else if (process.env.NODE_ENV === 'development') {
@@ -30,3 +32,5 @@ app.listen(PORT, () => {
   db.sequelize.sync()
   console.log(`App is running on http://localhost:${PORT}`)
 })
+
+module.exports = app
