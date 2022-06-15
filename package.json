@@ -12,10 +12,10 @@
   "author": "Alice Chin",
   "license": "ISC",
   "devDependencies": {
-    "@faker-js/faker": "^7.2.0",
     "nodemon": "^2.0.16"
   },
   "dependencies": {
+    "@faker-js/faker": "^7.2.0",
     "bcrypt": "^5.0.1",
     "chai": "^4.3.6",
     "cors": "^2.8.5",

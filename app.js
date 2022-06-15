@@ -29,7 +29,6 @@ app.use(routers)
 app.use(errorHandler)
 
 app.listen(PORT, () => {
-  db.sequelize.sync()
   console.log(`App is running on http://localhost:${PORT}`)
 })
 

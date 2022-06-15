@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  mysql:
+    image: mysql
+    container_name: mysqldb
+    restart: always
+    ports:
+      - 3306:3306
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: null
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
+      MYSQL_RANDOM_ROOT_PASSWORD: false
+      MYSQL_USERNAME: shopline
+      MYSQL_HOST: localhost
+      MYSQL_PASSWORD: 88888888
+
+  myapp:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: myapp
+    volumes:
+      - ./:/app/
+      - /app/node_modules
+    environment:
+      MYSQL_USERNAME: shopline
+      MYSQL_PASSWORD: 88888888
+      MYSQL_HOST: mysql
+    ports:
+      - 3000:3000
+    expose:
+      - 3000
+    depends_on:
+      - mysql
+    tty: true
+    stdin_open: true
+    command: npm run start

@@ -1,0 +1,6 @@
+CREATE USER 'shopline'@'%' IDENTIFIED BY '88888888' ;
+
+CREATE SCHEMA `shopline` DEFAULT CHARACTER SET utf8;
+
+GRANT ALL PRIVILEGES ON *.*
+TO 'shopline'@'%';

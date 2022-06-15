@@ -15,6 +15,8 @@ package-lock.json
 *.log
 *.gz
 *.env
+.env.*
 logs/*
+data
 
 .txt
