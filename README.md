@@ -34,8 +34,8 @@ https://dbdiagram.io/d/62a5f1949921fe2a96e9d8b0
                 "quantity": 2
             }
         ]
-}
-    ```
+   }
+   ```
 
 - get shopping cart data
     - method: GET
