@@ -7,7 +7,7 @@ class PrivateOrderRepository {
 
   updateOrderStatusAsPaid (orderId, transactionId) {
     return Order.update(
-      { transaction_id: transactionId },
+      { transaction_id: transactionId, status: 'paid' },
       { where: { id: orderId } }
     )
   }

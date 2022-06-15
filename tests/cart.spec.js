@@ -32,6 +32,7 @@ describe('# add products to shopping cart', () => {
 
   context('- check cart products existence', () => {
     let data = Object.assign({}, testData)
+    let cartId
     before(() => {
       const scope = data.products.map(p => {
         return Product.increment(
@@ -55,10 +56,18 @@ describe('# add products to shopping cart', () => {
           const cartItems = await Cart_item.findAll({
             where: { cart_id: cart.id }
           })
+          cartId = cart.id
           expect(cart).to.not.be.null
           expect(cartItems.length).to.equal(data.products.length)
           done()
         })
+    })
+
+    after(() => {
+      Promise.all([
+        Shopping_cart.destroy({ where: { member_id: data.memberId } }),
+        Cart_item.destroy({ where: { cart_id: cartId } })
+      ])
     })
   })
 })
