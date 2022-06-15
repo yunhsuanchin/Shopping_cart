@@ -1,7 +1,6 @@
 const shoppingCartRepository = require('../repositories/shoppingCartRepository')
 const cartItemRepository = require('../repositories/cartItemRepository')
 const orderRepository = require('../repositories/orderRepository')
-const productSnapshotRepository = require('../repositories/productSnapshotRepository')
 const orderItemRepository = require('../repositories/orderItemRepository')
 const transactionRepository = require('../repositories/transactionRepository')
 const productService = require('./productService')
@@ -55,9 +54,9 @@ class PrivateCartService {
       // create order
       const order = await orderRepository.createOrder(orderData)
       // create product snapshot if not exists
-      await productSnapshotRepository.createProductSnapshot(cartItems.products)
+      await productService.createSnapshots(cartItems.products)
       // get latest snapshots
-      const snapshots = await productSnapshotRepository.getLatestSnapshot(
+      const snapshots = await productService.getLatestSnapshot(
         _.map(cartItems.products, 'id')
       )
 

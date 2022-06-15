@@ -18,7 +18,7 @@ class PrivateProductSnapshotRepository {
       })
     })
 
-    await Promise.all([scope.map(s => s.cost), scope])
+    await Promise.all(scope)
   }
 
   getLatestSnapshot (productIds) {

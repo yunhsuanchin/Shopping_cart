@@ -1,4 +1,5 @@
 const productRepository = require('../repositories/productRepository')
+const productSnapshotRepository = require('../repositories/productSnapshotRepository')
 const { BadRequest } = require('../utils/errors')
 
 class PrivateProductService {
@@ -8,6 +9,14 @@ class PrivateProductService {
 
   getProductDetails (productIds) {
     return productRepository.getProductDetails(productIds.map(p => p.id))
+  }
+
+  async createSnapshots (products) {
+    await productSnapshotRepository.createProductSnapshot(products)
+  }
+
+  getLatestSnapshot (productIds) {
+    return productSnapshotRepository.getLatestSnapshot(productIds)
   }
 
   async checkProductBalance (products) {

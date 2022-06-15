@@ -8,7 +8,6 @@ if (process.env.NODE_ENV === 'production') {
     path: path.resolve(__dirname, './config/env/.env.dev')
   })
 }
-console.log('env', process.env.MYSQL_PASSWORD)
 const db = require('../models')
 
 const { Product, Member } = require('../models')
